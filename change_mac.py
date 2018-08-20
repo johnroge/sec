@@ -13,6 +13,7 @@ import subprocess
 import optparse
 
 
+# TODO: save off current MAC address and give ability to roll back
 def get_current_mac(interface):
     """
     Use regex to filter ifconfig for current MAC address
