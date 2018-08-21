@@ -1,9 +1,17 @@
 #!/usr/bin/env python
 
+"""
+Check packets for DNS requests containing "www.bing.com" and replace
+response with another IP
+
+Last updated: Aug 2018
+- adding documentation, TODO items
+"""
 import netfilterqueue
 import scapy.all as scapy
 
 
+# TODO: Get user input rather than static entries
 def process_packet(packet):
     scapy_packet = scapy.IP(packet.get_payload())
     if scapy_packet.haslayer(scapy.DNSRR):

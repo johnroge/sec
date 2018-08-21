@@ -12,6 +12,7 @@ import optparse
 
 
 def get_arguments():
+    # Get target IP address or range for scan
     parser = optparse.OptionParser()
     parser.add_option("-t", "--target",
                       dest="target",
@@ -21,12 +22,14 @@ def get_arguments():
 
 
 def scan(ip):
+    # Use the broadcast to get available MAC addresses in the give range
     arp_request = scapy.ARP(pdst=ip)
     broadcast = scapy.Ether(dst="ff:ff:ff:ff:ff:ff")
     arp_request_broadcast = broadcast/arp_request
     answered_list = scapy.srp(arp_request_broadcast,
                               verbose=False, timeout=1)[0]
 
+    # Build a list IP/MAC associations found in the given range
     clients_list = []
     for element in answered_list:
         client_dict = {"IP": element[1].psrc,
