@@ -32,6 +32,7 @@ def get_current_mac(interface):
 
 
 def get_arguments():
+    # need to understand this better so that I can port to other programs
     parser = optparse.OptionParser()
     parser.add_option("-i", "--interface",
                       dest="interface",
@@ -65,6 +66,7 @@ def main():
 
     change_mac(options.interface, options.new_mac)
 
+    # add option to quit and replace original MAC address
     current_mac = get_current_mac(options.interface)
     if current_mac == options.new_mac:
         print("[+] MAC changed to " + current_mac)

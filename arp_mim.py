@@ -8,9 +8,9 @@ run following commands if having issues with scapy:
 -> apt-get install python3-pip
 -> pip3 install scapy-python3
 -----> 'python3 arp_mim.py' should now work.
-
-version 1.0 - Aug 2018
-
+v1.0 Aug 2018
+johnroge -> outlook.com
+Last change: documentation update
 """
 import scapy.all as scapy
 import time
@@ -42,6 +42,7 @@ def get_mac(ip):
     return answered_list[0][1].hwsrc
 
 
+    # make victim IP think we are the spoof IP
 def spoof(victim_ip, spoof_ip):
     target_mac = get_mac(victim_ip)
     """
