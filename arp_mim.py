@@ -42,10 +42,10 @@ def get_mac(ip):
     return answered_list[0][1].hwsrc
 
 
-    # make victim IP think we are the spoof IP
 def spoof(victim_ip, spoof_ip):
     target_mac = get_mac(victim_ip)
     """
+    For a given IP, poison the ARP cache with a new MAC address
     op=1 is ARP request, op=2 is ARP response
     pdst = destination IP / target IP
     hwdst = target MAC address
@@ -67,6 +67,13 @@ def restore(destination_ip, source_ip):
 
 
 def main():
+    """
+    Logical flow: 1) get victim IP and gateway IP from user
+                  2) use 'get_mac' to find MAC addresses of each IP
+                  3) run spoof against both IPs to poison their ARP cache
+                  4) reverse the ARP cache poison using restore when a
+                        keyboard interrupt signal is detected
+    """
 
     print_header()
 
