@@ -4,7 +4,6 @@ change a local MAC address
 syntax: ./change_mac.py -i eth0 -m 00:11:22:33:44:55
 v1.1 Aug 2018
 johnroge -> outlook.com
-
 Last changes: created main(), adding documentation
 """
 
