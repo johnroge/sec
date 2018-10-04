@@ -77,7 +77,6 @@ def main():
 
     print_header()
 
-    # TODO: sanitize user input
     target_ip = input('Victim IP (e.g. 10.0.0.5): ')
     gateway_ip = input('Default Gateway (e.g. 10.0.0.1): ')
 

